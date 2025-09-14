@@ -19,6 +19,6 @@ export async function GET(request: Request) {
 
   const shopifyAuthUrl = `https://${shop}/admin/oauth/authorize?client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}&state=${state}&grant_options[]=per-user`;
 
-  return NextResponse.redirect(shopifyAuthUrl);
+  return NextResponse.redirect(redirectUri);
 }
 

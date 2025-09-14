@@ -22,7 +22,7 @@ export default function ConnectPortal() {
     setIsConnecting(true);
     
     // Redirect to our OAuth route
-    window.location.href = `/api/auth/shopify?shop=${shopDomain}`;
+    window.location.href = `/api/auth/callback/shopify?shop=${shopDomain}`;
   };
 
   return (

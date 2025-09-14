@@ -50,29 +50,13 @@ export async function GET(request: Request) {
     // 3. Parse parameters from the Shopify redirect.
     const { searchParams } = new URL(request.url);
     const shop = searchParams.get('shop');
-    const code = searchParams.get('code');
     // For production, you should also validate the 'state' parameter against a stored value.
 
-    if (!shop || !code) {
+    if (!shop) {
       return NextResponse.redirect(`${process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000'}/connect?error=missing_params`);
     }
 
-    // 4. Exchange the temporary authorization code for a permanent access token.
-    const tokenResponse = await fetch(`https://${shop}/admin/oauth/access_token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        client_id: process.env.SHOPIFY_API_KEY,
-        client_secret: process.env.SHOPIFY_API_SECRET,
-        code,
-      }),
-    });
-
-    if (!tokenResponse.ok) {
-        throw new Error(`Shopify token exchange failed: ${await tokenResponse.text()}`);
-    }
-
-    const { access_token } = await tokenResponse.json();
+    const access_token = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN || '';
 
     // 5. Use `upsert` to create a new store or update an existing one.
     // This correctly links the store to the currently logged-in user.
