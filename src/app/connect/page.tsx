@@ -14,6 +14,7 @@ export default function ConnectPortal() {
 
     // Ensure the shop domain is formatted correctly
     let shopDomain = shop.trim();
+    console.log(shopDomain)
     if (!shopDomain.includes('.myshopify.com')) {
       shopDomain += '.myshopify.com';
     }
@@ -43,7 +44,7 @@ export default function ConnectPortal() {
                 value={shop}
                 onChange={(e) => setShop(e.target.value)}
                 placeholder="your-store"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                 disabled={isConnecting}
               />
               <span className="absolute right-3 top-2 text-gray-500 text-sm">
