@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
+import { Decimal } from '@prisma/client/runtime/library';
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,7 +27,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No store found' }, { status: 404 });
     }
 
-    const orders = await prisma.order.findMany({
+    type OrderWithCustomer = {
+      id: string;
+      orderNumber: string | null;
+      totalPrice: number | Decimal;
+      currency: string;
+      processedAt: Date | null;
+      customer: {
+        firstName: string | null;
+        lastName: string | null;
+        email: string | null;
+      } | null;
+    };
+
+    const orders: OrderWithCustomer[] = await prisma.order.findMany({
       where: { storeId },
       orderBy: { totalPrice: 'desc' },
       take: 5,
@@ -43,7 +56,16 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    const mapped = orders.map(o => ({
+    type OrderResult = {
+      id: string;
+      orderNumber: string | null;
+      total: number;
+      currency: string;
+      date: string | null;
+      customerName: string;
+      customerEmail?: string;
+    };
+  const mapped: OrderResult[] = orders.map((o: OrderWithCustomer) => ({
       id: o.id,
       orderNumber: o.orderNumber,
       total: Number(o.totalPrice),

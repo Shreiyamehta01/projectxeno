@@ -56,7 +56,7 @@ async function fetchOrders(store: Store) {
 
 async function withRetry<T>(fn: () => Promise<T>, label: string, retries = 3, baseDelayMs = 200) {
   let attempt = 0;
-  // eslint-disable-next-line no-constant-condition
+  //
   while (true) {
     try {
       return await fn();

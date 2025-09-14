@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 
+
 declare global {
-  // eslint-disable-next-line no-var
   var dbInstance: PrismaClient | undefined;
 }
 
-const db = (globalThis as any).dbInstance || new PrismaClient();
-if (process.env.NODE_ENV !== 'production') (globalThis as any).dbInstance = db;
+const db = (globalThis.dbInstance as PrismaClient | undefined) || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalThis.dbInstance = db;
 
 export default db;

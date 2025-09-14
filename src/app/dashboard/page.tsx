@@ -1,14 +1,14 @@
-interface Order {
+"use client"
+
+export interface Order {
   id: string;
   orderNumber: string | null;
   date: string | null;
   total: number;
   currency: string;
 }
-"use client"
 
 import type React from "react"
-
 import { useState, useEffect, useCallback } from "react"
 import { ComposedChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Bar } from "recharts"
 import type { DateRange } from "react-day-picker"
@@ -85,27 +85,7 @@ export default function InsightsDashboard() {
   >([])
   const [isOrdersLoading, setIsOrdersLoading] = useState(false)
 
-    const [loading, setLoading] = useState(true)
-    const [dashboardError, setDashboardError] = useState<string | null>(null)
-    const [summaryStats, setSummaryStats] = useState<Totals | null>(null)
-    const [visualData, setVisualData] = useState<ChartData[]>([])
-    const [revenueTrends, setRevenueTrends] = useState<AvgRevenueData[]>([])
-    const [customerLeaders, setCustomerLeaders] = useState<TopCustomer[]>([])
-    const [orderLeaders, setOrderLeaders] = useState<TopOrder[]>([])
-    const [monthStats, setMonthStats] = useState<CurrentMonth | null>(null)
-    const [dateRange] = useState<DateRange | undefined>({
-      from: addDays(new Date(), -30),
-      to: new Date(),
-    })
-    const [syncing, setSyncing] = useState(false)
-    const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null)
-    const [chosenCustomer, setChosenCustomer] = useState<{ id: string; name: string } | null>(null)
-    const [ordersForCustomer, setOrdersForCustomer] = useState<
-      { id: string; name: string; orders: Order[] } | null
-    >(null)
-    const [ordersLoading, setOrdersLoading] = useState(false)
-    const [storeList, setStoreList] = useState<StoreSummary[]>([])
-    const [activeStoreId, setActiveStoreId] = useState<string | null>(null)
+    // Removed unused state variables to fix lint warnings
   const [stores, setStores] = useState<StoreSummary[]>([])
   const [storeId, setStoreId] = useState<string | null>(null)
 
